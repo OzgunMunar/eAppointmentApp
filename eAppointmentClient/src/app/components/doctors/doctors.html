@@ -1,0 +1,83 @@
+<div class="mt-2 d-flex justify-content-between align-items-center">
+
+    <h3>Doctors Page</h3>
+
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active">Doctor List</li>
+        </ol>
+    </nav>
+
+</div>
+
+<div class="mt-3">
+    <div class="form-group">
+
+<!-- [data]=""  -->
+            <!-- [loading]=""  -->
+        <flexi-grid 
+            [data]="[]"
+            [showCaption]="true" 
+            captionTitle="Doctors List"
+            [showExportExcelBtn]="true" 
+            language="en" 
+            exportExcelFileName="Doctors" 
+            >
+            <!-- (onrefresh)="" -->
+
+            <ng-template flexiGridCaptionCommandTemplate>
+                <flexi-button 
+                    routerLink="" 
+                    btnIcon="add" 
+                    btnColor="primary" 
+                    title="Add Doctor"
+                    flexiTooltip />
+            </ng-template>
+
+            <flexi-grid-column field="" title="Doctor Full Name" />
+
+            <flexi-grid-column 
+                field="" 
+                title="Kategori Adi" 
+                filterType="select"
+                />
+<!-- [filterData]=""  -->
+            <flexi-grid-column 
+                field="" 
+                title="Urun Fiyati" 
+                filterType="number" 
+                textAlign="right" 
+                format="c"
+                symbol="₺" />
+
+            <flexi-grid-column 
+                field="" 
+                title="Urun Adedi" 
+                filterType="number" 
+                textAlign="right" />
+
+            <ng-template flexiGridColumnCommandTemplate let-item>
+
+                <flexi-button 
+                    routerLink="/" 
+                    btnIcon="edit" 
+                    btnColor="info" 
+                    title="Edit Doctor Info"
+                    btnSize="small" 
+                    flexiTooltip />
+
+                <flexi-button 
+                    btnIcon="delete" 
+                    btnColor="danger" 
+                    title="Delete Doctor" 
+                    btnSize="small" 
+                    flexiTooltip />
+
+            </ng-template>
+
+        </flexi-grid>
+
+
+    </div>
+</div>
