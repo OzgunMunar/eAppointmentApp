@@ -16,9 +16,4 @@ export class DoctorModel {
     updatedUserName: string | null = null;
     updatedAt: Date | null = null;
     isDeleted: boolean = false;
-
-    get fullName():string {
-        return `${this.firstName} ${this.lastName}`
-    }
-
 }
