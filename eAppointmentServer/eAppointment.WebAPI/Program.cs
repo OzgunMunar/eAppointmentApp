@@ -58,10 +58,10 @@ app.UseCors(x => x
 
 app.UseExceptionHandler();
 
-app.RegisterRoutes();
+app.UseAuthentication();
+app.UseAuthorization();
 
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.RegisterRoutes();
 
 ExtensionsMiddleware.CreateFirstUser(app);
 
