@@ -1,0 +1,12 @@
+Domain'de
+    entity
+    repository
+
+Infrastructure
+    DbContext'te entity'i tablo tanimla
+    Entitilerin Configuration ekle
+    Reporitory yarat
+
+WebAPI
+    AppODataController'a get methodu ekle
+    Modules'a DoctorModule ekle

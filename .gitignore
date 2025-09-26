@@ -1,0 +1,9 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Angular
+node_modules/
+dist/
