@@ -1,5 +1,4 @@
 using eAppointment.Domain.Abstractions;
-using eAppointment.Domain.CommonRecords;
 
 namespace eAppointment.Domain.Entities;
 
@@ -9,7 +8,10 @@ public sealed class Patient : Entity
     public string LastName { get; set; } = default!;
     public string IdentityNumber { get; set; } = default!;
     public string FullName => string.Join(" ", FirstName, LastName);
-    public Address Address { get; set; } = default!;
-    public PersonalInformation PersonalInformation { get; set; } = default!;
+    public string Country { get; set; } = default!;
+    public string City { get; set; } = default!;
+    public string Street { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string PhoneNumber { get; set; } = default!;
     
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using eAppointment.Domain.Users;
+using MapsterMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddResponseCompression(opt =>
 {
     opt.EnableForHttps = true;
 });
+
+builder.Services.AddSingleton(new Mapper());
+builder.Services.AddScoped<IMapper, Mapper>();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

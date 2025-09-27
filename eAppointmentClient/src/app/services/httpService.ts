@@ -69,7 +69,7 @@ export class HttpService {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
 
-    this.http.delete<ResultModel<T>>(`${api}/${apiUrl}`, {headers})
+    this.http.delete<ResultModel<T>>(`${api}/${apiUrl}`, { headers })
       .subscribe({
         next: (res => {
 
@@ -79,6 +79,44 @@ export class HttpService {
         error: ((err: HttpErrorResponse) => {
 
           this.errorService.errorHandler(err)
+          if (errorCallBack !== undefined) {
+
+            errorCallBack(err)
+
+          }
+
+        })
+
+      })
+
+  }
+
+  put<T>(
+    apiUrl: string,
+    body: any,
+    callBack: (res: ResultModel<T>) => void,
+    errorCallBack?: (err: HttpErrorResponse) => void
+  ) {
+
+    const token = localStorage.getItem('token');
+
+    let headers = new HttpHeaders()
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    this.http.put<ResultModel<T>>(`${api}/${apiUrl}`, body, { headers })
+      .subscribe({
+        next: (res => {
+
+          callBack(res)
+
+        }),
+        error: ((err: HttpErrorResponse) => {
+
+          this.errorService.errorHandler(err)
+
           if (errorCallBack !== undefined) {
 
             errorCallBack(err)

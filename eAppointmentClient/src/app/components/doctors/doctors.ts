@@ -24,14 +24,19 @@ import { FormValidateDirective } from 'form-validate-angular';
 export default class Doctors {
 
   readonly newDoctor = signal<DoctorModel>({ ...initialDoctor })
+  readonly updateDoctorValues = signal<DoctorModel>({ ...initialDoctor })
+  readonly updateDoctorId = signal<string>("")
   readonly departmentList = signal<DepartmentModel[]>(departments)
-  @ViewChild('firstInput') firstInput!: ElementRef<HTMLInputElement>
+
+  @ViewChild('addFirstInput') addFirstInput!: ElementRef<HTMLInputElement>
+  @ViewChild('updateFirstInput') updateFirstInput!: ElementRef<HTMLInputElement>
   @ViewChild('addModal') addModalRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('updateModal') updateModalRef!: ElementRef<HTMLDivElement>;
 
   readonly #toastr = inject(FlexiToastService)
   readonly #http = inject(HttpService)
 
-  readonly doctors = httpResource<ODataResponse<DoctorModel>>(() => "http://localhost:5159/odata/doctors");
+  readonly doctors = httpResource<ODataResponse<DoctorModel>>(() => "http://localhost:5159/odata/doctors")
 
   readonly data = computed(() => {
     return this.doctors.value()?.value.map((val, i) => {
@@ -46,9 +51,9 @@ export default class Doctors {
         departmentName: dept.name,
         fullName: `${val.firstName} ${val.lastName}`
 
-      } as DoctorModel;
-    }) ?? [];
-  });
+      } as DoctorModel
+    }) ?? []
+  })
 
   readonly loading = computed(() => this.doctors.isLoading())
 
@@ -56,14 +61,29 @@ export default class Doctors {
 
     this.newDoctor.set({ ...initialDoctor })
 
-    const modalEl = this.addModalRef.nativeElement;
-    const modal = new bootstrap.Modal(modalEl);
+    const modalEl = this.addModalRef.nativeElement
+    const modal = new bootstrap.Modal(modalEl)
 
     modalEl.addEventListener('shown.bs.modal', () => {
-      this.firstInput?.nativeElement.focus();
-    }, { once: true });
+      this.addFirstInput?.nativeElement.focus()
+    }, { once: true })
 
-    modal.show();
+    modal.show()
+
+  }
+
+  openUpdateModal(id: string) {
+
+    const modalEl = this.updateModalRef.nativeElement
+    const modal = new bootstrap.Modal(modalEl)
+
+    modalEl.addEventListener('shown.bs.modal', () => {
+      this.updateFirstInput?.nativeElement.focus()
+    }, { once: true })
+
+    this.getValuesForUpdate(id)
+
+    modal.show()
 
   }
 
@@ -84,8 +104,8 @@ export default class Doctors {
 
       this.#toastr.showToast("Doctor Saved", "Doctor successfully saved.")
 
-      const modalInstance = bootstrap.Modal.getInstance(this.addModalRef.nativeElement);
-      modalInstance?.hide();
+      const modalInstance = bootstrap.Modal.getInstance(this.addModalRef.nativeElement)
+      modalInstance?.hide()
 
       this.doctors.reload()
 
@@ -100,15 +120,48 @@ export default class Doctors {
       this.#http.delete(`doctors/${doctorId}`, (res) => {
 
         if (res.isSuccessful) {
-          this.#toastr.showToast("Success", `Doctor(${doctorName}) deleted`, "success");
+          this.#toastr.showToast("Success", `Doctor(${doctorName}) deleted`, "success")
           this.doctors.reload();
         } else {
-          this.#toastr.showToast("Error", `Doctor(${doctorName}) could not be deleted`, "error");
+          this.#toastr.showToast("Error", `Doctor(${doctorName}) could not be deleted`, "error")
         }
 
       })
 
     }, "Cancel")
+
+  }
+
+  updateDoctor(form: NgForm) {
+
+    console.log(this.updateDoctorValues())
+
+    this.#http.put(`doctors/${this.updateDoctorId()}`, this.updateDoctorValues(), (res) => {
+
+      this.#toastr.showToast("Doctor Updated", "Doctor successfully updated.");
+
+      const modalInstance = bootstrap.Modal.getInstance(this.updateModalRef.nativeElement)
+      modalInstance?.hide()
+
+      this.doctors.reload()
+
+    })
+
+
+  }
+
+  getValuesForUpdate(id: string) {
+
+    const doctor = this.doctors.value()?.value.find(doc => doc.id == id)
+
+    if (!doctor) {
+
+      this.#toastr.showToast("Problem", "There is a problem with fetching data.", "error")
+      return
+
+    }
+    this.updateDoctorValues.set({ ...doctor })
+    this.updateDoctorId.set(id)
 
   }
 

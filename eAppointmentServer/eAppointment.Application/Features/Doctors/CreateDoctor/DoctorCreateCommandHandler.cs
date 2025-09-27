@@ -1,4 +1,3 @@
-using eAppointment.Domain.CommonRecords;
 using eAppointment.Domain.Entities;
 using eAppointment.Domain.Repositories;
 using eAppointmentServer.Domain.Enums;
@@ -28,25 +27,17 @@ internal sealed class DoctorCreateCommandHandler(
             return Result<string>.Failure("Doctor with same Identity Number already exist.");
         }
 
-        // Doctor doctor = request.Adapt<Doctor>();
-
         var doctor = new Doctor
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
             IdentityNumber = request.IdentityNumber,
             Department = DepartmentEnum.FromValue(request.Department),
-            Address = new Address
-            {
-                Street = request.Street,
-                City = request.City,
-                Country = request.Country
-            },
-            PersonalInformation = new PersonalInformation
-            {
-                Email = request.Email,
-                PhoneNumber = request.PhoneNumber
-            },
+            Street = request.Street,
+            City = request.City,
+            Country = request.Country,
+            Email = request.Email,
+            PhoneNumber = request.PhoneNumber,
             IsActive = true
         };
 

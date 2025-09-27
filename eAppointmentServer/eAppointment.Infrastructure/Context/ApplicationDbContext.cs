@@ -1,9 +1,7 @@
 using System.Reflection;
 using eAppointment.Domain.Abstractions;
-using eAppointment.Domain.Employees;
 using eAppointment.Domain.Entities;
 using eAppointment.Domain.Users;
-using eAppointment.Infrastructure.Configurations;
 using GenericRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eAppointment.Infrastructure.Context;
 
-// public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>, IUnitOfWork
 public class ApplicationDbContext : IdentityDbContext<
     AppUser,
     AppRole,
@@ -54,12 +51,9 @@ public class ApplicationDbContext : IdentityDbContext<
     {
         var entries = ChangeTracker.Entries<Entity>();
 
-        // HttpContextAccessor httpContextAccessor = new();
-        // string userIdString = httpContextAccessor.HttpContext!.User.Claims.First(p => p.Type == "user-id").Value;
         string? userIdString = _httpContextAccessor.HttpContext?.User?.Claims
             .FirstOrDefault(c => c.Type == "user-id")?.Value;
 
-        // Guid userId = Guid.Parse(userIdString);
         Guid? userId = userIdString is null ? null : Guid.Parse(userIdString);
 
 
