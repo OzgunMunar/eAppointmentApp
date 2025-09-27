@@ -23,7 +23,7 @@ import { FormValidateDirective } from 'form-validate-angular';
 
 export default class Doctors {
 
-  readonly newDoctor = signal<DoctorModel>({...initialDoctor})
+  readonly newDoctor = signal<DoctorModel>({ ...initialDoctor })
   readonly departmentList = signal<DepartmentModel[]>(departments)
   @ViewChild('firstInput') firstInput!: ElementRef<HTMLInputElement>
   @ViewChild('addModal') addModalRef!: ElementRef<HTMLDivElement>;
@@ -54,7 +54,7 @@ export default class Doctors {
 
   openAddModal() {
 
-    this.newDoctor.set({...initialDoctor})
+    this.newDoctor.set({ ...initialDoctor })
 
     const modalEl = this.addModalRef.nativeElement;
     const modal = new bootstrap.Modal(modalEl);
@@ -69,9 +69,9 @@ export default class Doctors {
 
   saveDoctor(form: NgForm) {
 
-    if(!form.valid) {
+    if (!form.valid) {
 
-      this.#toastr.showToast("Missing Data", "There are empty fields!","error")
+      this.#toastr.showToast("Missing Data", "There are empty fields!", "error")
       return
 
     }
@@ -83,13 +83,32 @@ export default class Doctors {
     this.#http.post('doctors', this.newDoctor(), (res) => {
 
       this.#toastr.showToast("Doctor Saved", "Doctor successfully saved.")
-      
+
       const modalInstance = bootstrap.Modal.getInstance(this.addModalRef.nativeElement);
       modalInstance?.hide();
-      
+
       this.doctors.reload()
 
     })
+
+  }
+
+  deleteDoctor(doctorId: string, doctorName: string) {
+
+    this.#toastr.showSwal("Delete Doctor?", `Are you sure that you want to delete ${doctorName}?`, "Delete", () => {
+
+      this.#http.delete(`doctors/${doctorId}`, (res) => {
+
+        if (res.isSuccessful) {
+          this.#toastr.showToast("Success", `Doctor(${doctorName}) deleted`, "success");
+          this.doctors.reload();
+        } else {
+          this.#toastr.showToast("Error", `Doctor(${doctorName}) could not be deleted`, "error");
+        }
+
+      })
+
+    }, "Cancel")
 
   }
 

@@ -69,8 +69,8 @@ app.RegisterRoutes();
 // app.UseAuthentication();
 // app.UseAuthorization();
 
-ExtensionsMiddleware.CreateFirstUser(app);
+// ExtensionsMiddleware.CreateFirstUser(app);
 
-Helper.CreateUserAsync(app).Wait();
+// Helper.CreateUserAsync(app).Wait();
 
 app.Run();

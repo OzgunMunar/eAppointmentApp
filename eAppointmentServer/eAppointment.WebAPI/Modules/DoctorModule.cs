@@ -1,5 +1,6 @@
 using eAppointment.Application.Doctors.CreateDoctor;
 using eAppointment.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using TS.MediatR;
 using TS.Result;
 
@@ -19,12 +20,12 @@ public static class DoctorModule
         })
         .Produces<Result<string>>();
 
-        // group.MapGet(string.Empty, async (ISender sender, Guid UserId, CancellationToken cancellationToken) =>
-        // {
-        //     var response = await sender.Send(new DoctorGetQuery(UserId), cancellationToken);
-        //     return response.IsSuccessful ? Results.Ok(response) : Results.InternalServerError(response);
-        // })
-        // .Produces<Result<Doctor>>();
+        group.MapDelete("{id:guid}", async ([FromServices] ISender sender, Guid id, CancellationToken cancellationToken) =>
+        {
+            var response = await sender.Send(new DoctorDeleteCommand(id), cancellationToken);
+            return response.IsSuccessful ? Results.Ok(response) : Results.InternalServerError(response);
+        });
+
 
     }
 }

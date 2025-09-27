@@ -20,11 +20,18 @@ internal sealed class GetAllDoctorsQueryHandler(
         var doctors = await doctorRepository.GetAll().ToListAsync(cancellationToken);
 
         var response = await (
+
             from doctor in doctorRepository.GetAll()
+
             join created_user in userManager.Users.AsQueryable() on doctor.CreatedUserId equals created_user.Id
+
             join update_user in userManager.Users.AsQueryable() on doctor.UpdatedUserId equals update_user.Id into update_user
             from update_users in update_user.DefaultIfEmpty()
+
             orderby doctor.FirstName ascending, doctor.Department ascending
+
+            where doctor.IsActive == true && doctor.IsDeleted == false
+
             select new GetAllDoctorsQueryResponse
             {
                 Id = doctor.Id,

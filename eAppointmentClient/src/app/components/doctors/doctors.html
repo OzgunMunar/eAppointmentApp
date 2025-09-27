@@ -35,7 +35,14 @@
                 <flexi-button routerLink="/" btnIcon="edit" btnColor="info" title="Edit Doctor Info" btnSize="small"
                     flexiTooltip />
 
-                <flexi-button btnIcon="delete" btnColor="danger" title="Delete Doctor" btnSize="small" flexiTooltip />
+                <flexi-button 
+                    (click)="deleteDoctor(item.id, item.fullName)"
+                    cancelBtnText="Cancel"
+                    btnIcon="delete" 
+                    btnColor="danger" 
+                    title="Delete Doctor" 
+                    btnSize="small" 
+                    flexiTooltip />
 
             </ng-template>
 
