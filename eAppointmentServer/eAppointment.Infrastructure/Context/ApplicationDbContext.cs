@@ -50,7 +50,7 @@ public class ApplicationDbContext : IdentityDbContext<
 
     }
     
-     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         var entries = ChangeTracker.Entries<Entity>();
 

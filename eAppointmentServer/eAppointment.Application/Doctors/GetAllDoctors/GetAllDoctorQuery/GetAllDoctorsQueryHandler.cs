@@ -7,18 +7,22 @@ using TS.MediatR;
 namespace eAppointment.Application.Doctors.GetAllDoctors.GetAllDoctorQuery;
 
 internal sealed class GetAllDoctorsQueryHandler(
+
     IDoctorRepository doctorRepository,
     UserManager<AppUser> userManager
+
 ) : IRequestHandler<GetAllDoctorsQuery,
     IQueryable<GetAllDoctorsQueryResponse>>
 {
     public async Task<IQueryable<GetAllDoctorsQueryResponse>> Handle(GetAllDoctorsQuery request, CancellationToken cancellationToken)
     {
 
+        var doctors = await doctorRepository.GetAll().ToListAsync(cancellationToken);
+
         var response = await (
             from doctor in doctorRepository.GetAll()
             join created_user in userManager.Users.AsQueryable() on doctor.CreatedUserId equals created_user.Id
-            join update_user in userManager.Users.AsQueryable() on doctor.CreatedUserId equals update_user.Id into update_user
+            join update_user in userManager.Users.AsQueryable() on doctor.UpdatedUserId equals update_user.Id into update_user
             from update_users in update_user.DefaultIfEmpty()
             orderby doctor.FirstName ascending, doctor.Department ascending
             select new GetAllDoctorsQueryResponse
@@ -43,7 +47,7 @@ internal sealed class GetAllDoctorsQueryHandler(
 
             }
 
-        ).ToListAsync();
+        ).ToListAsync(cancellationToken);
 
         return response.AsQueryable();
 

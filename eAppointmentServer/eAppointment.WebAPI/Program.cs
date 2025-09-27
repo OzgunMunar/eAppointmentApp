@@ -43,29 +43,33 @@ builder.Services.AddExceptionHandler<ExceptionHandler>().AddProblemDetails();
 
 var app = builder.Build();
 
-app.MapOpenApi();
-app.MapScalarApiReference();
-
-app.MapControllers().RequireRateLimiting("fixed").RequireAuthorization();
-
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseCors(x => x
+    .WithOrigins("http://localhost:4200")
     .AllowAnyHeader()
     .AllowCredentials()
     .AllowAnyMethod()
     .SetIsOriginAllowed(t => true));
 
+app.UseResponseCompression();
+
 app.UseExceptionHandler();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.MapOpenApi();
+
+app.MapScalarApiReference();
+
+app.MapControllers();
+// .RequireRateLimiting("fixed");
+// .RequireAuthorization();
 
 app.RegisterRoutes();
 
-ExtensionsMiddleware.CreateFirstUser(app);
+// app.UseAuthentication();
+// app.UseAuthorization();
 
-app.UseResponseCompression();
+ExtensionsMiddleware.CreateFirstUser(app);
 
 Helper.CreateUserAsync(app).Wait();
 

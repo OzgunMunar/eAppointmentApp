@@ -14,27 +14,16 @@
 <div class="mt-3">
     <div class="form-group">
 
-        <flexi-grid 
-            [data]="data()"
-            [showCaption]="true" 
-            captionTitle="Doctors List"
-            [showExportExcelBtn]="true" 
-            language="en" 
-            exportExcelFileName="Doctors" 
-            (onrefresh)="doctors.reload()"
-            >
+        <flexi-grid [data]="data()" [showCaption]="true" captionTitle="Doctors List" [showExportExcelBtn]="true"
+            language="en" exportExcelFileName="Doctors" (onrefresh)="doctors.reload()">
 
             <ng-template flexiGridCaptionCommandTemplate>
-                <flexi-button 
-                    routerLink="" 
-                    btnIcon="add" 
-                    btnColor="primary" 
-                    title="Add Doctor"
+                <flexi-button btnIcon="add" btnColor="primary" title="Add Doctor" (click)="openAddModal()"
                     flexiTooltip />
             </ng-template>
 
             <flexi-grid-column field="fullName" title="Full Name" />
-            <flexi-grid-column field="department" title="Department" />
+            <flexi-grid-column field="departmentName" title="Department" />
             <flexi-grid-column field="email" title="Email" />
             <flexi-grid-column field="phoneNumber" title="Phone Number" />
             <flexi-grid-column field="street" title="Street" />
@@ -43,25 +32,125 @@
 
             <ng-template flexiGridColumnCommandTemplate let-item>
 
-                <flexi-button 
-                    routerLink="/" 
-                    btnIcon="edit" 
-                    btnColor="info" 
-                    title="Edit Doctor Info"
-                    btnSize="small" 
+                <flexi-button routerLink="/" btnIcon="edit" btnColor="info" title="Edit Doctor Info" btnSize="small"
                     flexiTooltip />
 
-                <flexi-button 
-                    btnIcon="delete" 
-                    btnColor="danger" 
-                    title="Delete Doctor" 
-                    btnSize="small" 
-                    flexiTooltip />
+                <flexi-button btnIcon="delete" btnColor="danger" title="Delete Doctor" btnSize="small" flexiTooltip />
 
             </ng-template>
 
         </flexi-grid>
 
 
+    </div>
+</div>
+
+<div #addModal class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Add Doctor Form</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form formValidate #form="ngForm" (ngSubmit)="saveDoctor(form)" autocomplete="off">
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+
+                        <label>First Name:</label>
+                        <input #firstInput type="text" [(ngModel)]="newDoctor().firstName" name="firstName"
+                            class="form-control" minlength="3" required>
+                        <div class="invalid-feedback">First Name is required.</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Last Name:</label>
+                        <input type="text" [(ngModel)]="newDoctor().lastName" name="lastName" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Last Name is required.</div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Department:</label>
+                        <select class="form-control" [(ngModel)]="newDoctor().department" name="department" required>
+                            <option value="" disabled>Select Department</option>
+
+                            @for(dept of departmentList(); track dept) {
+                                <option [value]="dept.value">{{ dept.name }}</option>
+                            }
+
+                        </select>
+                        <div class="invalid-feedback">Department is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Identity Number:</label>
+                        <input type="text" [(ngModel)]="newDoctor().identityNumber" name="identityNumber"
+                            class="form-control" minlength="11" maxlength="11" required>
+                        <div class="invalid-feedback">Identity Number(11 character) is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Email:</label>
+                        <input type="email" [(ngModel)]="newDoctor().email" name="email" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Email is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Phone Number:</label>
+                        <input type="text" [(ngModel)]="newDoctor().phoneNumber" name="phoneNumber" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Phone number is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Country:</label>
+                        <input type="text" [(ngModel)]="newDoctor().country" name="country" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Country is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>City:</label>
+                        <input type="text" [(ngModel)]="newDoctor().city" name="city" class="form-control" minlength="3"
+                            required>
+                        <div class="invalid-feedback">City is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Street:</label>
+                        <input type="text" [(ngModel)]="newDoctor().street" name="street" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Street is required.</div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Doctor</button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
 </div>
