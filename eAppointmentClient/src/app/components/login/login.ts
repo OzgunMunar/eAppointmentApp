@@ -44,7 +44,7 @@ export default class Login {
     if(form.valid) {
       
       this.http.post<LoginResponseModel>("Auth/Login", this.loginModel, (res) => {
-        console.log(res)
+        
         if(res.data !== undefined) {
           
           localStorage.setItem("token", res.data?.accessToken)

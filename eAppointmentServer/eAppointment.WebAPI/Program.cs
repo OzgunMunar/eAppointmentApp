@@ -32,6 +32,7 @@ builder.Services.AddControllers().AddOData(options =>
         .AddRouteComponents("odata", AppODataController.GetEdmModel());
 
 });
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRateLimiter(x =>
@@ -72,9 +73,5 @@ app.RegisterRoutes();
 
 // app.UseAuthentication();
 // app.UseAuthorization();
-
-// ExtensionsMiddleware.CreateFirstUser(app);
-
-// Helper.CreateUserAsync(app).Wait();
 
 app.Run();

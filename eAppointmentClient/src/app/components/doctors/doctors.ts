@@ -98,8 +98,6 @@ export default class Doctors {
 
     this.newDoctor.set(form.value)
 
-    console.log(this.newDoctor)
-
     this.#http.post('doctors', this.newDoctor(), (res) => {
 
       this.#toastr.showToast("Doctor Saved", "Doctor successfully saved.")
@@ -133,8 +131,6 @@ export default class Doctors {
   }
 
   updateDoctor(form: NgForm) {
-
-    console.log(this.updateDoctorValues())
 
     this.#http.put(`doctors/${this.updateDoctorId()}`, this.updateDoctorValues(), (res) => {
 
