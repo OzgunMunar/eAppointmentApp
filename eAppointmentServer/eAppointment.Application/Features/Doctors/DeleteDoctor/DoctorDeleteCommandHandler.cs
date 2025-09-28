@@ -23,7 +23,7 @@ internal sealed class DoctorDeleteCommandHandler(
 
         doctor.IsDeleted = true;
         doctor.IsActive = false;
-        
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<string>.Succeed("Doctor is deleted successfully");

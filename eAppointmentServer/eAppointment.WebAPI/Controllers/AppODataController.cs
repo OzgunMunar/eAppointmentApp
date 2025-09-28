@@ -25,6 +25,7 @@ public class AppODataController(ISender sender) : ODataController
 
         builder.EnableLowerCamelCase();
         builder.EntitySet<GetAllDoctorsQueryResponse>("doctors");
+        builder.EntitySet<GetAllPatientsQueryResponse>("patients");
 
         return builder.GetEdmModel();
 

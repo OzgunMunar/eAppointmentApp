@@ -22,7 +22,7 @@ import { FormValidateDirective } from 'form-validate-angular';
 })
 
 export default class Doctors {
-
+  
   readonly newDoctor = signal<DoctorModel>({ ...initialDoctor })
   readonly updateDoctorValues = signal<DoctorModel>({ ...initialDoctor })
   readonly updateDoctorId = signal<string>("")

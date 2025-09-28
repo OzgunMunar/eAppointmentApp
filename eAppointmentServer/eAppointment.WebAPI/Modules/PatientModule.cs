@@ -9,7 +9,7 @@ namespace eAppointment.WebAPI.Modules;
 
 public static class PatientModule
 {
-    public static void RegisterDoctorModuleRootes(this IEndpointRouteBuilder endpointRouteBuilder)
+    public static void RegisterPatientModuleRootes(this IEndpointRouteBuilder endpointRouteBuilder)
     {
 
         RouteGroupBuilder group = endpointRouteBuilder.MapGroup("/api/patients").WithTags("Patients");

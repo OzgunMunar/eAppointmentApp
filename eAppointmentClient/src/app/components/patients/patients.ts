@@ -37,7 +37,12 @@ export default class Patients {
   readonly patients = httpResource<ODataResponse<PatientModel>>(() => "http://localhost:5159/odata/patients")
 
   readonly data = computed(() => {
-    return this.patients.value()?.value ?? []
+    return this.patients.value()?.value.map((val) => {
+      return ({
+        ...val,
+        fullName: `${val.firstName} ${val.lastName}`
+      })
+    }) ?? []
   })
 
   readonly loading = computed(() => this.patients.isLoading())

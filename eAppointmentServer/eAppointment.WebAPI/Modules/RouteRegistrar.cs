@@ -6,5 +6,6 @@ public static class RouteRegistrar
     {
         endpointRouteBuilder.RegisterEmployeeRoutes();
         endpointRouteBuilder.RegisterDoctorModuleRootes();
+        endpointRouteBuilder.RegisterPatientModuleRootes();
     }
 }

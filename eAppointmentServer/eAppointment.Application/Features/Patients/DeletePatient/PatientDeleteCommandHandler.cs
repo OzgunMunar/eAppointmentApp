@@ -15,19 +15,15 @@ internal sealed class PatientDeleteCommandHandler(
     public async Task<Result<string>> Handle(PatientDeleteCommand request, CancellationToken cancellationToken)
     {
 
-        Patient? searchPatient = await (
-            from patient in patientRepository.GetAll().Where(p => p.IsActive == true && p.IsDeleted == false)
-            where patient.Id == request.Id
-            select patient
-        ).FirstOrDefaultAsync(cancellationToken);
+        Patient? patient = await patientRepository.FirstAsync(p => p.Id == request.Id,cancellationToken);
 
-        if (searchPatient == null)
+        if (patient == null)
         {
             return Result<string>.Failure("Patient not found.");
         }
 
-        searchPatient.IsActive = false;
-        searchPatient.IsDeleted = true;
+        patient.IsActive = false;
+        patient.IsDeleted = true;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

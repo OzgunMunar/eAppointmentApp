@@ -8,7 +8,7 @@ namespace eAppointment.Application.Features.Patients.Create;
 public sealed record PatientCreateCommand(
 
     string FirstName,
-    string Lastname,
+    string LastName,
     string IdentityNumber,
     string Country,
     string City,
@@ -27,7 +27,7 @@ public sealed class PatientCreateCommandValidator : AbstractValidator<PatientCre
             .MinimumLength(3)
             .WithMessage("First Name must be at least 3 characters.");
 
-        RuleFor(rule => rule.Lastname)
+        RuleFor(rule => rule.LastName)
             .MinimumLength(3)
             .WithMessage("Last Name must be at least 3 characters.");
 
