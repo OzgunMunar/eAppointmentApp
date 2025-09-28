@@ -3,7 +3,6 @@ using eAppointment.Domain.Repositories;
 using eAppointmentServer.Domain.Enums;
 using GenericRepository;
 using Mapster;
-using MapsterMapper;
 using TS.MediatR;
 using TS.Result;
 

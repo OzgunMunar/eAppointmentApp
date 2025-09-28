@@ -17,7 +17,10 @@ internal sealed class GetAllDoctorsQueryHandler(
     public async Task<IQueryable<GetAllDoctorsQueryResponse>> Handle(GetAllDoctorsQuery request, CancellationToken cancellationToken)
     {
 
-        var doctors = await doctorRepository.GetAll().ToListAsync(cancellationToken);
+        var doctors = await doctorRepository
+            .GetAll()
+            .Where(doctor => doctor.IsActive == true && doctor.IsDeleted == false)
+            .ToListAsync(cancellationToken);
 
         var response = await (
 
@@ -44,14 +47,6 @@ internal sealed class GetAllDoctorsQueryHandler(
                 City = doctor.City,
                 Country = doctor.Country,
                 Street = doctor.Street,
-                CreatedUserID = doctor.CreatedUserId,
-                CreatedUserName = created_user.FirstName + " " + created_user.LastName + " (" + created_user.Email + ")",
-                CreatedAt = doctor.CreatedAt,
-                UpdatedUserID = doctor.UpdatedUserId,
-                UpdatedUserName = doctor.UpdatedUserId == null ? null : update_users.FirstName + " " + update_users.LastName + " (" + update_users.Email + ")",
-                UpdatedAt = doctor.UpdatedAt,
-                IsDeleted = doctor.IsDeleted,
-
             }
 
         ).ToListAsync(cancellationToken);
