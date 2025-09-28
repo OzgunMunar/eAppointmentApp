@@ -3,9 +3,9 @@ using Mapster;
 using TS.MediatR;
 using TS.Result;
 
-namespace eAppointment.Application.Features.Patients.UpdatePatient;
+namespace eAppointment.Application.Features.Patients.PatientUpdate;
 
-public sealed record UpdatePatientCommand(
+public sealed record PatientUpdateCommand(
 
     Guid Id,
     string FirstName,

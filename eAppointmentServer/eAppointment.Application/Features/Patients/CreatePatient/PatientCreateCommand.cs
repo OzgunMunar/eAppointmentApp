@@ -5,7 +5,7 @@ using TS.Result;
 
 namespace eAppointment.Application.Features.Patients.Create;
 
-public sealed record CreatePatientCommand(
+public sealed record PatientCreateCommand(
 
     string FirstName,
     string Lastname,
@@ -18,9 +18,9 @@ public sealed record CreatePatientCommand(
 
 ) : IRequest<Result<string>>;
 
-public sealed class CreatePatientCommandValidator : AbstractValidator<CreatePatientCommand>
+public sealed class PatientCreateCommandValidator : AbstractValidator<PatientCreateCommand>
 {
-    public CreatePatientCommandValidator()
+    public PatientCreateCommandValidator()
     {
 
         RuleFor(rule => rule.FirstName)

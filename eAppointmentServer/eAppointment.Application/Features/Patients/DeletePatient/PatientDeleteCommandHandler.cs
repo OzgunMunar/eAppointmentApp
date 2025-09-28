@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using TS.MediatR;
 using TS.Result;
 
-namespace eAppointment.Application.Features.Patients.DeletePatient;
+namespace eAppointment.Application.Features.Patients.PatientDelete;
 
 internal sealed class PatientDeleteCommandHandler(
     IPatientRepository patientRepository,

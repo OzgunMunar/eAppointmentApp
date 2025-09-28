@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace eAppointment.Application.Features.Patients.UpdatePatient;
+namespace eAppointment.Application.Features.Patients.PatientUpdate;
 
-public sealed class UpdatePatientCommandValidator : AbstractValidator<UpdatePatientCommand>
+public sealed class PatientUpdateCommandValidator : AbstractValidator<PatientUpdateCommand>
 {
-    public UpdatePatientCommandValidator()
+    public PatientUpdateCommandValidator()
     {
         RuleFor(ruleFor => ruleFor.FirstName)
             .MinimumLength(3)

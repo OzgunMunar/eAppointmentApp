@@ -1,4 +1,5 @@
 using eAppointment.Application.Doctors.GetAllDoctors.GetAllDoctorQuery;
+using eAppointmentServer.Application.Features.Patients.GetAllPatients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -33,6 +34,13 @@ public class AppODataController(ISender sender) : ODataController
     public async Task<IQueryable<GetAllDoctorsQueryResponse>> GetAllDoctors(CancellationToken cancellationToken)
     {
         var response = await sender.Send(new GetAllDoctorsQuery(), cancellationToken);
+        return response;
+    }
+
+    [HttpGet("patients")]
+    public async Task<IQueryable<GetAllPatientsQueryResponse>> GetAllPatients(CancellationToken cancellationToken)
+    {
+        var response = await sender.Send(new GetAllPatientsQuery(), cancellationToken);
         return response;
     }
 }

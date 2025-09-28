@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore;
 using TS.MediatR;
 using TS.Result;
 
-namespace eAppointment.Application.Features.Patients.UpdatePatient;
+namespace eAppointment.Application.Features.Patients.PatientUpdate;
 
-internal sealed class UpdatePatientCommandHandler(
+internal sealed class PatientUpdateCommandHandler(
     IPatientRepository patientRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper
-) : IRequestHandler<UpdatePatientCommand, Result<string>>
+) : IRequestHandler<PatientUpdateCommand, Result<string>>
 {
-    public async Task<Result<string>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(PatientUpdateCommand request, CancellationToken cancellationToken)
     {
 
         Patient? searchPatient = await (

@@ -8,14 +8,14 @@ using TS.Result;
 
 namespace eAppointment.Application.Features.Patients.Create;
 
-internal sealed class CreatePatientCommandHandler(
+internal sealed class PatientCreateCommandHandler(
     IPatientRepository patientRepository,
     IUnitOfWork unitOfWork
 )
-: IRequestHandler<CreatePatientCommand, Result<string>>
+: IRequestHandler<PatientCreateCommand, Result<string>>
 {
 
-    public async Task<Result<string>> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(PatientCreateCommand request, CancellationToken cancellationToken)
     {
 
         Patient? searchPatient = await (
