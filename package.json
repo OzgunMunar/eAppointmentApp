@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fullcalendar/timegrid": "^6.1.19",
+    "@fullcalendar/web-component": "^6.1.19"
+  }
+}
