@@ -15,7 +15,10 @@ IRequestHandler<GetAllAppointmentsByDoctorIdQuery, Result<List<GetAllAppointment
     public async Task<Result<List<GetAllAppointmentsByDoctorIdQueryResponse>>> Handle(GetAllAppointmentsByDoctorIdQuery request, CancellationToken cancellationToken)
     {
         List<Appointment> appointments = await appointmentRepository
-                    .Where(p => p.DoctorId == request.DoctorId)
+                    .Where(
+                        p => p.DoctorId == request.DoctorId
+                        &&
+                        p.IsActive == true)
                     .Include(p => p.Patient)
                     .ToListAsync(cancellationToken);
 

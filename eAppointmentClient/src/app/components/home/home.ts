@@ -3,7 +3,7 @@ import { departments } from '../../constants';
 import { DepartmentModel, DoctorModel, initialDoctor } from '../../models/doctor.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { httpResource } from '@angular/common/http';
-import { DxSchedulerModule } from 'devextreme-angular';
+import { DxSchedulerComponent, DxSchedulerModule } from 'devextreme-angular';
 import { HttpService } from '../../services/httpService';
 import { AppointmentModel, initialAppointment } from '../../models/appointment.model';
 import { CreateAppointmentModel, initialCreateAppointment } from '../../models/create-appointment.model';
@@ -30,6 +30,7 @@ declare const $: any
 export default class Home {
 
   @ViewChild("addModalCloseBtn") addModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
+  @ViewChild(DxSchedulerComponent, { static: false }) scheduler?: DxSchedulerComponent;
 
   readonly departmentValues = signal<DepartmentModel[]>(departments)
   readonly doctors = httpResource<ODataResponse<DoctorModel>>(() => "http://localhost:5159/odata/doctors")
@@ -45,7 +46,7 @@ export default class Home {
 
   readonly appointments = signal<AppointmentModel[]>([{ ...initialAppointment }])
   readonly createAppointmentModel = signal<CreateAppointmentModel>({ ...initialCreateAppointment })
-  readonly newAppointment = signal<CreateAppointmentModel>({...initialCreateAppointment})
+  readonly newAppointment = signal<CreateAppointmentModel>({ ...initialCreateAppointment })
 
   getAllDoctorsByDepartment() {
 
@@ -78,7 +79,6 @@ export default class Home {
           if (res && res.data) {
 
             this.appointments.set(res.data)
-            console.log(this.appointments())
 
           }
 
@@ -156,5 +156,38 @@ export default class Home {
     }
 
   }
-  // 45439869347
+
+  onAppointmentDeleted(event: any) {
+
+    event.cancel = true
+    
+    this.#toast.showSwal("Delete appointment", `Do you want to delete ${event.appointmentData.patient.fullName}'s appointment?`, "Delete", () => {
+
+      this.#http.delete(`appointments/${event.appointmentData.id}`, (res) => {
+
+        if (res.isSuccessful) {
+          
+          this.#toast.showToast("Success", `Appointment(${event.appointmentData.patient.fullName}) deleted.`, "success") 
+          this.getAllAppointmentsByDoctorId()
+
+        } else {
+
+          this.#toast.showToast("Error", `Appointment(${event.appointmentData.patient.fullName}) could not be deleted`, "error")
+
+        }
+
+      })
+
+    }, "Cancel", () => {
+      this.getAllAppointmentsByDoctorId()
+    })
+
+  }
+
+  onAppointmentDeleting(event: any) {
+
+    event.cancel = true
+
+  }
+
 }

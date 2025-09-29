@@ -51,9 +51,19 @@
 
         @if(selectedDoctorId()) {
 
-        <dx-scheduler [dataSource]="appointments()" currentView="week" [startDayHour]="9" [endDayHour]="18"
-            [showAllDayPanel]="false" (onAppointmentFormOpening)="onAppointmentFormOpening($event)">
+        <dx-scheduler 
+            [dataSource]="appointments()" 
+            currentView="week" 
+            [startDayHour]="9" 
+            [endDayHour]="18"
+            [showAllDayPanel]="false" 
+            (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+            (onAppointmentDeleted)="onAppointmentDeleted($event)"
+            >
+            <!-- (onAppointmentDeleting)="onAppointmentDeleting($event)" -->
+
         </dx-scheduler>
+
         } @else {
 
         <div class="alert alert-info" role="alert">
@@ -164,11 +174,6 @@
                     </div>
 
                 </div>
-
-                <!-- <input type="hidden" name="doctorId" [ngModel]="selectedDoctorId()">
-                <input type="hidden" name="patientId" [ngModel]="createAppointmentModel().patientId"> -->
-                <!-- <input type="hidden" name="startDate" [ngModel]="startDate()">
-                <input type="hidden" name="endDate" [ngModel]="endDate()"> -->
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Add Appointment</button>

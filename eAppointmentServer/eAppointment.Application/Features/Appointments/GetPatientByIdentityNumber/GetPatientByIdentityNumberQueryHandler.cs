@@ -12,7 +12,12 @@ internal sealed class GetPatientByIdentityNumberQueryHandler(
     public async Task<Result<Patient>> Handle(GetPatientByIdentityNumberQuery request, CancellationToken cancellationToken)
     {
 
-        Patient? patient = await patientRepository.GetByExpressionAsync(p => p.IdentityNumber == request.IdentityNumber, cancellationToken);
+        Patient? patient = await patientRepository
+                    .GetByExpressionAsync(
+                        p => p.IdentityNumber == request.IdentityNumber
+                        &&
+                        p.IsActive == true
+                        , cancellationToken);
 
         return Result<Patient>.Succeed(patient);
 

@@ -118,10 +118,14 @@ export default class Doctors {
       this.#http.delete(`doctors/${doctorId}`, (res) => {
 
         if (res.isSuccessful) {
+
           this.#toastr.showToast("Success", `Doctor(${doctorName}) deleted`, "success")
-          this.doctors.reload();
+          this.doctors.reload()
+
         } else {
+
           this.#toastr.showToast("Error", `Doctor(${doctorName}) could not be deleted`, "error")
+          
         }
 
       })

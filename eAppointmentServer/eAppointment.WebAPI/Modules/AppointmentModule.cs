@@ -2,6 +2,7 @@ using eAppointment.Application.Features.Appointments.CreateAppointment;
 using eAppointment.Application.Features.Appointments.GetAllAppointmentsByDoctorId;
 using eAppointment.Application.Features.Appointments.GetAllDoctorsByDepartment;
 using eAppointment.Application.Features.Appointments.GetPatientByIdentityNumber;
+using eAppointmentServer.Application.Features.Appointments.DeleteAppointmentById;
 using Microsoft.AspNetCore.Mvc;
 using TS.MediatR;
 using TS.Result;
@@ -70,6 +71,19 @@ public static class AppointmentModule
             })
             .Produces<Result<string>>();
 
+        group.MapDelete("{id:guid}", async (
+            [FromServices] ISender sender,
+            Guid id,
+            CancellationToken cancellationToken) =>
+            {
+                var command = new DeleteAppointmentByIdCommand(id);
+                var response = await sender.Send(command, cancellationToken);
+                return response.IsSuccessful
+                    ? Results.Ok(response)
+                    : Results.InternalServerError(response);
+            })
+            .Produces<Result<string>>();
+
         // group.MapPut("{id:guid}", async (
         //     [FromServices] ISender sender,
         //     Guid id,
@@ -84,19 +98,6 @@ public static class AppointmentModule
         //             ? Results.Ok(response)
         //             : Results.InternalServerError(response);
 
-        //     })
-        //     .Produces<Result<string>>();
-
-        // group.MapDelete("{id:guid}", async (
-        //     [FromServices] ISender sender,
-        //     Guid id,
-        //     CancellationToken cancellationToken) =>
-        //     {
-        //         var command = new DoctorDeleteCommand(id);
-        //         var response = await sender.Send(command, cancellationToken);
-        //         return response.IsSuccessful
-        //             ? Results.Ok(response)
-        //             : Results.InternalServerError(response);
         //     })
         //     .Produces<Result<string>>();
 
