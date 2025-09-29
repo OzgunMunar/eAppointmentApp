@@ -1,7 +1,4 @@
 using eAppointment.Domain.Abstractions;
-using eAppointment.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
-using TS.MediatR;
 
 namespace eAppointmentServer.Application.Features.Patients.GetAllPatients;
 

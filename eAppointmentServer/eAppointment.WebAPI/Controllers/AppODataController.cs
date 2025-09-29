@@ -44,4 +44,5 @@ public class AppODataController(ISender sender) : ODataController
         var response = await sender.Send(new GetAllPatientsQuery(), cancellationToken);
         return response;
     }
+
 }

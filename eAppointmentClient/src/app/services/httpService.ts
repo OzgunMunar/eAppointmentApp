@@ -15,6 +15,36 @@ export class HttpService {
     private errorService: ErrorService
   ) { }
 
+  getById<T>(
+    apiUrl: string,
+    parameterName: string,
+    id: number | string,
+    callBack: (res: ResultModel<T>) => void,
+    errorCallBack?: (err: HttpErrorResponse) => void
+  ) {
+    const token = localStorage.getItem('token');
+
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    this.http.get<ResultModel<T>>(`${api}/${apiUrl}?${parameterName}=${id}`, { headers })
+      .subscribe({
+        next: (res) => {
+          
+          callBack(res);
+          
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorService.errorHandler(err);
+          if (errorCallBack !== undefined) {
+            errorCallBack(err);
+          }
+        }
+      });
+  }
+
   post<T>(
     apiUrl: string,
     body: any,
@@ -33,11 +63,7 @@ export class HttpService {
     this.http.post<ResultModel<T>>(`${api}/${apiUrl}`, body, { headers })
       .subscribe({
         next: (res => {
-
-          if (res.data !== undefined && res.data !== null) {
             callBack(res)
-          }
-
         }),
         error: ((err: HttpErrorResponse) => {
 
