@@ -7,7 +7,7 @@ using TS.Result;
 
 namespace eAppointmentServer.Application.Features.Users.DeleteUser;
 
-public sealed record DeleteUserCommand(
+public sealed record UserDeleteCommand(
     Guid Id
 ): IRequest<Result<string>>;
 
@@ -17,9 +17,9 @@ internal sealed class DeleteUserCommandHandler(
     IUnitOfWork unitOfWork
 
 )
-: IRequestHandler<DeleteUserCommand, Result<string>>
+: IRequestHandler<UserDeleteCommand, Result<string>>
 {
-    public async Task<Result<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<string>> Handle(UserDeleteCommand request, CancellationToken cancellationToken)
     {
 
         AppUser? appUser = await userManager.Users
