@@ -23,6 +23,10 @@ export const routes: Routes = [
             {
                 path: "patients",
                 loadComponent: () => import('../app/components/patients/patients')
+            },
+            {
+                path: "users",
+                loadComponent: () => import('../app/components/users/users')
             }
             
         ]

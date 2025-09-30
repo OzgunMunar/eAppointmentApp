@@ -11,7 +11,7 @@ public static class RoleConstants
         {
             "Admin",
             "Doctor",
-            "Personnal"
+            "Personnel"
         };
 
         return roles.Select(s => new AppRole() { Name = s }).ToList();

@@ -11,8 +11,7 @@ internal sealed class GetAllDoctorsQueryHandler(
     IDoctorRepository doctorRepository,
     UserManager<AppUser> userManager
 
-) : IRequestHandler<GetAllDoctorsQuery,
-    IQueryable<GetAllDoctorsQueryResponse>>
+) : IRequestHandler<GetAllDoctorsQuery, IQueryable<GetAllDoctorsQueryResponse>>
 {
     public async Task<IQueryable<GetAllDoctorsQueryResponse>> Handle(GetAllDoctorsQuery request, CancellationToken cancellationToken)
     {

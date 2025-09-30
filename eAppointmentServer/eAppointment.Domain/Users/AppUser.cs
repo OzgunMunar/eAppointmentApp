@@ -7,6 +7,7 @@ public sealed class AppUser : IdentityUser<Guid>
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string FullName => $"{FirstName} {LastName}";
+    public bool IsActive { get; set; } = true;
 
     #region Audit Log
 

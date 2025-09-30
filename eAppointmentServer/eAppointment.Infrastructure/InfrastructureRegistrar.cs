@@ -1,6 +1,8 @@
+using eAppointment.Domain.Repositories;
 using eAppointment.Domain.Users;
 using eAppointment.Infrastructure.Context;
 using eAppointment.Infrastructure.Options;
+using eAppointment.Infrastructure.Repositories;
 using GenericRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -49,10 +51,12 @@ public static class InfrastructureRegistrar
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, _ => { }); 
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, _ => { });
 
         services.AddAuthorization();
 
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        
         services.Scan(opt =>
         {
             opt.FromAssemblies(typeof(InfrastructureRegistrar).Assembly)
@@ -62,6 +66,7 @@ public static class InfrastructureRegistrar
                 .AsImplementedInterfaces()
                 .WithScopedLifetime();
         });
+
 
         return services;
     }

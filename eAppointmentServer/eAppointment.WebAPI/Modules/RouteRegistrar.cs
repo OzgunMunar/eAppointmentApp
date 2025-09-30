@@ -8,5 +8,6 @@ public static class RouteRegistrar
         endpointRouteBuilder.RegisterPatientModuleRootes();
         endpointRouteBuilder.RegisterAppointmentModuleRootes();
         endpointRouteBuilder.RegisterRolesModuleRootes();
+        endpointRouteBuilder.RegisterUserModuleRootes();
     }
 }

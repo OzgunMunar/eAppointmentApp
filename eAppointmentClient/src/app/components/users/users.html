@@ -1,0 +1,201 @@
+<div class="mt-2 d-flex justify-content-between align-items-center">
+
+    <h3>Users Page</h3>
+
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active">User List</li>
+        </ol>
+    </nav>
+
+</div>
+
+<div class="mt-3">
+    <div class="form-group">
+
+        <flexi-grid 
+            [data]="data()" 
+            [showCaption]="true" 
+            captionTitle="Users List" 
+            [showExportExcelBtn]="true"
+            language="en" 
+            exportExcelFileName="Users" 
+            (onrefresh)="users.reload()">
+
+            <ng-template flexiGridCaptionCommandTemplate>
+                <flexi-button btnIcon="add" btnColor="primary" title="Add User" (click)="openAddModal()" flexiTooltip />
+            </ng-template>
+
+            <flexi-grid-column field="fullName" title="Full Name" />
+            <flexi-grid-column field="userName" title="User Name" />
+            <flexi-grid-column field="email" title="Email" />
+            <flexi-grid-column field="roleName" title="Role Name" />
+
+            <ng-template flexiGridColumnCommandTemplate let-item>
+
+                <flexi-button btnIcon="edit" btnColor="info" title="Edit User Info" btnSize="small"
+                    (click)="openUpdateModal(item.id)" flexiTooltip />
+
+                <flexi-button (click)="deleteUser(item.id, item.fullName)" cancelBtnText="Cancel" btnIcon="delete"
+                    btnColor="danger" title="Delete User" btnSize="small" flexiTooltip />
+
+            </ng-template>
+
+        </flexi-grid>
+
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div #addModal class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Add User Form</h1>
+            </div>
+
+            <form formValidate #form="ngForm" (ngSubmit)="saveUser(form)" autocomplete="off">
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+
+                        <label>First Name:</label>
+                        <input #addFirstInput type="text" [(ngModel)]="newUser().firstName" name="firstName"
+                            class="form-control" minlength="3" required>
+                        <div class="invalid-feedback">First Name is required.</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Last Name:</label>
+                        <input type="text" [(ngModel)]="newUser().lastName" name="lastName" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Last Name is required.</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>User Name:</label>
+                        <input type="text" [(ngModel)]="newUser().userName" name="userName" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">User Name is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Email:</label>
+                        <input type="email" [(ngModel)]="newUser().email" name="email" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Email is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>User Role:</label>
+                        <select [(ngModel)]="newUser().roleId" name="roleId" class="form-select">
+                            <option value="0">Select...</option>
+                            @for(userRole of userRoleList(); track userRole) {
+
+                            <option [value]="userRole.id">
+                                {{ userRole.name }}
+                            </option>
+                            }
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal -->
+<div #updateModal class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Update User Form</h1>
+            </div>
+
+            <form formValidate #form="ngForm" (ngSubmit)="updateUser(form)" autocomplete="off">
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+
+                        <label>First Name:</label>
+                        <input #updateFirstInput type="text" [(ngModel)]="updateUserValues().firstName" name="firstName"
+                            class="form-control" minlength="3" required>
+                        <div class="invalid-feedback">First Name is required.</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Last Name:</label>
+                        <input type="text" [(ngModel)]="updateUserValues().lastName" name="lastName"
+                            class="form-control" minlength="3" required>
+                        <div class="invalid-feedback">Last Name is required.</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>User Name:</label>
+                        <input type="text" [(ngModel)]="updateUserValues().userName" name="userName"
+                            class="form-control" minlength="3" required>
+                        <div class="invalid-feedback">User Name is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>Email:</label>
+                        <input type="email" [(ngModel)]="updateUserValues().email" name="email" class="form-control"
+                            minlength="3" required>
+                        <div class="invalid-feedback">Email is required.</div>
+
+                    </div>
+
+                    <div class="form-group mt-3">
+
+                        <label>User Role:</label>
+                        <select [(ngModel)]="updateUserValues().roleId" name="roleId" class="form-select">
+
+                            <option value="0">Select...</option>
+                            @for(userRole of userRoleList(); track userRole) {
+
+                            <option [value]="userRole.id">
+
+                                {{ userRole.name }}
+
+                            </option>
+
+                            }
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Update User</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
