@@ -9,6 +9,7 @@ namespace eAppointmentServer.Application.Features.Users.CreateUser;
 
 internal sealed class UserCreateCommandHandler(
     UserManager<AppUser> userManager,
+    RoleManager<AppRole> roleManager,
     IUnitOfWork unitOfWork
 ) :
 IRequestHandler<UserCreateCommand, Result<string>>
@@ -37,6 +38,12 @@ IRequestHandler<UserCreateCommand, Result<string>>
         if (!identityResult.Succeeded)
         {
             return Result<string>.Failure("Problem with saving new user.");
+        }
+
+        var role = await roleManager.FindByIdAsync(request.RoleId.ToString());
+        if (role != null)
+        {
+            await userManager.AddToRoleAsync(newUser, role.Name!);
         }
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

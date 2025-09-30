@@ -109,7 +109,7 @@ export default class Users {
 
     this.#toastr.showSwal("Delete User?", `Are you sure that you want to delete ${userName}?`, "Delete", () => {
 
-      this.#http.delete(`doctors/${userId}`, (res) => {
+      this.#http.delete(`users/${userId}`, (res) => {
 
         if (res.isSuccessful) {
 
@@ -130,7 +130,7 @@ export default class Users {
 
   updateUser(form: NgForm) {
 
-    this.#http.put(`doctors/${this.updateUserId()}`, this.updateUserValues(), (res) => {
+    this.#http.put(`users/${this.updateUserId()}`, this.updateUserValues(), (res) => {
 
       this.#toastr.showToast("User Updated", "User successfully updated.");
 
@@ -153,6 +153,7 @@ export default class Users {
       return
 
     }
+
     this.updateUserValues.set({ ...user })
     this.updateUserId.set(id)
 
