@@ -13,27 +13,15 @@ import { RoleModel } from '../../models/rolemodel';
 @Component({
   selector: 'app-users',
   imports: [
-
     RouterLink,
     FlexiGridModule,
     FormsModule,
     FormValidateDirective
-
   ],
   templateUrl: './users.html'
 })
 
 export default class Users {
-
-  constructor() {
-
-    effect(() => {
-
-      console.log(this.userRoleList())
-
-    })
-
-  }
   
   readonly newUser = signal<UserModel>({ ...initialUser })
   readonly updateUserValues = signal<UserModel>({ ...initialUser })

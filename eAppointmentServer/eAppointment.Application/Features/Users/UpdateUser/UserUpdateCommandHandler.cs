@@ -31,6 +31,13 @@ internal sealed class UserUpdateCommandHandler(
         appUser.Email = request.Email;
         appUser.UserName = request.UserName;
 
+        if (!string.IsNullOrWhiteSpace(request.Password))
+        {
+            await userManager.RemovePasswordAsync(appUser);
+            await userManager.AddPasswordAsync(appUser, request.Password);
+        }
+
+
         var currentRoles = await userManager.GetRolesAsync(appUser);
 
         if (currentRoles.Any())
