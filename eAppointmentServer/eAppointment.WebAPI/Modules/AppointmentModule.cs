@@ -14,7 +14,8 @@ public static class AppointmentModule
     public static void RegisterAppointmentModuleRootes(this IEndpointRouteBuilder endpointRouteBuilder)
     {
 
-        RouteGroupBuilder group = endpointRouteBuilder.MapGroup("/api/appointments").WithTags("Appointments");
+        RouteGroupBuilder group = endpointRouteBuilder.MapGroup("/api/appointments").WithTags("Appointments")
+                .RequireAuthorization();
 
         group.MapGet("/GetAllDoctorsByDepartment", async (
         [FromServices] ISender sender,

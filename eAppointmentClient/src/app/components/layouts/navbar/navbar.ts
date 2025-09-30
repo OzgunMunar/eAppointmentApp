@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { LoginModel } from '../../../models/login.model';
+import { AuthService } from '../../../services/authService';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +12,13 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Navbar {
 
-  constructor(
-    private router: Router
-  ){}
-  
+  readonly #router = inject(Router)
+  readonly #authService = inject(AuthService)
+  readonly userName = this.#authService.getUserName()
+
   signOut() {
     localStorage.removeItem("token")
-    this.router.navigateByUrl("/")
+    this.#router.navigateByUrl("/")
   }
 
 }

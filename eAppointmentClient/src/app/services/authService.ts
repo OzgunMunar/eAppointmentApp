@@ -47,4 +47,8 @@ export class AuthService {
 
   }
 
+  getUserName():string | null {
+    return this.tokenDecode.name ?? null
+  }
+
 }

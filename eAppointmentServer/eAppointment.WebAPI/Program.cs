@@ -5,8 +5,6 @@ using eAppointment.WebAPI.Controllers;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.RateLimiting;
 using Scalar.AspNetCore;
-using Microsoft.AspNetCore.Identity;
-using eAppointment.Domain.Users;
 using MapsterMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +13,7 @@ builder.Services.AddResponseCompression(opt =>
 {
     opt.EnableForHttps = true;
 });
-
+// 08:30 - 56video
 builder.Services.AddSingleton(new Mapper());
 builder.Services.AddScoped<IMapper, Mapper>();
 
@@ -36,19 +34,21 @@ builder.Services.AddControllers().AddOData(options =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRateLimiter(x =>
+
     x.AddFixedWindowLimiter("fixed", cfg =>
     {
         cfg.QueueLimit = 100;
         cfg.Window = TimeSpan.FromSeconds(1);
         cfg.PermitLimit = 100;
         cfg.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-    }));
+    })
+
+);
 
 builder.Services.AddExceptionHandler<ExceptionHandler>().AddProblemDetails();
 
 var app = builder.Build();
 
-// app.UseHttpsRedirection();
 
 app.UseCors(x => x
     .WithOrigins("http://localhost:4200")

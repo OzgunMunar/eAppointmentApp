@@ -12,8 +12,9 @@ public static class DoctorModule
     public static void RegisterDoctorModuleRootes(this IEndpointRouteBuilder endpointRouteBuilder)
     {
 
-        RouteGroupBuilder group = endpointRouteBuilder.MapGroup("/api/doctors").WithTags("Doctors");
-        // .RequireAuthorization();
+        RouteGroupBuilder group = endpointRouteBuilder.MapGroup("/api/doctors").WithTags("Doctors")
+            .RequireAuthorization();
+            
         group.MapPost(
             string.Empty, async (
                 ISender sender,

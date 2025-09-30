@@ -13,8 +13,7 @@ namespace eAppointment.WebAPI.Controllers;
 [Route("odata")]
 [ApiController]
 [EnableQuery]
-// [Authorize]
-[AllowAnonymous]
+[Authorize]
 public class AppODataController(ISender sender) : ODataController
 {
 
