@@ -1,6 +1,5 @@
 using eAppointment.Application.Doctors.CreateDoctor;
 using eAppointment.Application.Doctors.UpdateDoctor;
-using eAppointment.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using TS.MediatR;
 using TS.Result;
