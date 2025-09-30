@@ -24,7 +24,7 @@ public static class InfrastructureRegistrar
 
         services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
 
-        services.AddIdentity<AppUser, IdentityRole<Guid>>(opt =>
+        services.AddIdentity<AppUser, AppRole>(opt =>
         {
             opt.Password.RequiredLength = 6;
             opt.Password.RequireNonAlphanumeric = false;
@@ -35,7 +35,7 @@ public static class InfrastructureRegistrar
             // 5 wrong failed access attempt, lock it down for 5 min.
             opt.Lockout.MaxFailedAccessAttempts = 5;
             opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            // email onayla
+            // confirm email
             opt.SignIn.RequireConfirmedEmail = true;
         })
             .AddEntityFrameworkStores<ApplicationDbContext>()
